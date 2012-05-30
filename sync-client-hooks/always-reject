@@ -1,0 +1,6 @@
+# -*- mode: Shell-script-*-
+#!/usr/bin/bash
+#
+# Author: Mario Fernandez
+echo "The synchronization client does not accept manual modifications"
+exit 1

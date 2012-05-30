@@ -1,0 +1,23 @@
+# -*- mode: Shell-script-*-
+#!/usr/bin/bash
+#
+# This hook is intended to be installed for a git server. It calls a
+# script that synchronizes every change with subversion.
+#
+# Required environment variables:
+#  - GIT_SCRIPTS: directory where the git sync scripts are located
+#
+# Author: Mario Fernandez
+
+if [ -z "${GIT_SCRIPTS}" ] || [ -z "${GIT_SVN_SYNC_BASE}" ] || [ -z "${GIT_SVN_SYNC_BRANCH}" ] ; then
+    echo "The following variables are required for the synchronization to work: GIT_SCRIPTS GIT_SVN_SYNC_BASE GIT_SVN_SYNC_BRANCH"
+    exit 1
+fi
+
+while read oldrev newrev refname
+do
+    if [ "$refname" == "${GIT_SVN_SYNC_BRANCH}" ] ; then
+        echo "It is not allowed to push a branch named ${GIT_SVN_SYNC_BRANCH} to avoid conflicts when syncing with subversion"
+        exit 1
+    fi
+done
